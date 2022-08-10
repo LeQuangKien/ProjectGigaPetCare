@@ -27,7 +27,7 @@ public class ExpandLVCheckBox extends BaseExpandableListAdapter {
     private ArrayList<String> mListCategory;
     private HashMap<String, List<Service>> mListService;
     private HashMap<Integer, boolean[]> mChildCheckStates;
-    private ChildViewHolder childViewHolderNameService;
+    private ChildViewHolder childViewHolderService;
 
     private GroupViewHolder groupViewHolder;
     private String groupText;
@@ -52,6 +52,20 @@ public class ExpandLVCheckBox extends BaseExpandableListAdapter {
             }
         }
         return  count;
+    }
+    public ArrayList<Service> getListCheckedChild(int mGroupPosition)
+    {
+        ArrayList<Service> serviceArrayList = new ArrayList<>();
+        boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
+        int count = 0;
+        if(getChecked != null) {
+            for (int j = 0; j < getChecked.length; ++j) {
+                if (getChecked[j] == true){
+                    serviceArrayList.add(mListService.get("Category").get(j));
+                }
+            }
+        }
+        return  serviceArrayList;
     }
 
     @Override
@@ -107,8 +121,8 @@ public class ExpandLVCheckBox extends BaseExpandableListAdapter {
 
 
     @Override
-    public String getChild(int groupPosition, int childPosition) {
-        return mListService.get(mListCategory.get(groupPosition)).get(childPosition).getServiceName();
+    public Service getChild(int groupPosition, int childPosition) {
+        return mListService.get(mListCategory.get(groupPosition)).get(childPosition);
     }
 
     @Override
@@ -131,52 +145,50 @@ public class ExpandLVCheckBox extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.layout_item, null);
 
-            childViewHolderNameService = new ChildViewHolder();
+            childViewHolderService = new ChildViewHolder();
 
 
-            childViewHolderNameService.textViewName = (TextView) convertView
+            childViewHolderService.textViewName = (TextView) convertView
                     .findViewById(R.id.petService);
-            childViewHolderNameService.textViewPrice = (TextView) convertView
+            childViewHolderService.textViewPrice = (TextView) convertView
                     .findViewById(R.id.servicePrice);
-            childViewHolderNameService.textViewTime = (TextView) convertView
+            childViewHolderService.textViewTime = (TextView) convertView
                     .findViewById(R.id.serviceTime);
 
-            childViewHolderNameService.mCheckBox = (CheckBox) convertView
+            childViewHolderService.mCheckBox = (CheckBox) convertView
                     .findViewById(R.id.lstcheckBox);
-            childViewHolderNameService.mCheckBox = (CheckBox) convertView
+            childViewHolderService.mCheckBox = (CheckBox) convertView
                     .findViewById(R.id.lstcheckBox);
-            childViewHolderNameService.mCheckBox = (CheckBox) convertView
+            childViewHolderService.mCheckBox = (CheckBox) convertView
                     .findViewById(R.id.lstcheckBox);
 
-            convertView.setTag(R.layout.layout_item, childViewHolderNameService);
+            convertView.setTag(R.layout.layout_item, childViewHolderService);
 
         } else {
 
-            childViewHolderNameService = (ChildViewHolder) convertView
+            childViewHolderService = (ChildViewHolder) convertView
                     .getTag(R.layout.layout_item);
-            childViewHolderNameService = (ChildViewHolder) convertView
+            childViewHolderService = (ChildViewHolder) convertView
                     .getTag(R.layout.layout_item);
-            childViewHolderNameService = (ChildViewHolder) convertView
+            childViewHolderService = (ChildViewHolder) convertView
                     .getTag(R.layout.layout_item);
         }
 
-        childViewHolderNameService.textViewName.setText(mListService.get(mListCategory.get(groupPosition)).get(childPosition).getServiceName());
-        childViewHolderNameService.textViewPrice.setText("price: "+mListService.get(mListCategory.get(groupPosition)).get(childPosition).getServicePrice()+"$");
-        childViewHolderNameService.textViewTime.setText("time: "+mListService.get(mListCategory.get(groupPosition)).get(childPosition).getServiceTime()+" mins");
+        childViewHolderService.textViewName.setText(mListService.get(mListCategory.get(groupPosition)).get(childPosition).getServiceName());
+        childViewHolderService.textViewPrice.setText("price: "+mListService.get(mListCategory.get(groupPosition)).get(childPosition).getServicePrice()+"$");
+        childViewHolderService.textViewTime.setText("time: "+mListService.get(mListCategory.get(groupPosition)).get(childPosition).getServiceTime()+" mins");
 
 
-        childViewHolderNameService.mCheckBox.setOnCheckedChangeListener(null);
-        childViewHolderNameService.mCheckBox.setOnCheckedChangeListener(null);
-        childViewHolderNameService.mCheckBox.setOnCheckedChangeListener(null);
+        childViewHolderService.mCheckBox.setOnCheckedChangeListener(null);
+
 
         if (mChildCheckStates.containsKey(mGroupPosition)) {
 
             boolean getChecked[] = mChildCheckStates.get(mGroupPosition);
 
 
-            childViewHolderNameService.mCheckBox.setChecked(getChecked[mChildPosition]);
-            childViewHolderNameService.mCheckBox.setChecked(getChecked[mChildPosition]);
-            childViewHolderNameService.mCheckBox.setChecked(getChecked[mChildPosition]);
+            childViewHolderService.mCheckBox.setChecked(getChecked[mChildPosition]);
+
 
         } else {
 
@@ -187,11 +199,11 @@ public class ExpandLVCheckBox extends BaseExpandableListAdapter {
             mChildCheckStates.put(mGroupPosition, getChecked);
 
 
-            childViewHolderNameService.mCheckBox.setChecked(false);
+            childViewHolderService.mCheckBox.setChecked(false);
 
         }
 
-        childViewHolderNameService.mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        childViewHolderService.mCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

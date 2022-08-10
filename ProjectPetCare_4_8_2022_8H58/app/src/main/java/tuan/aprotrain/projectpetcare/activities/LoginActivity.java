@@ -35,14 +35,17 @@ import tuan.aprotrain.projectpetcare.entity.Recycle;
 import tuan.aprotrain.projectpetcare.entity.User;
 
 public class LoginActivity extends AppCompatActivity {
+
+
     EditText uEmail, uPassword;
     Button btnLogin;
-    ProgressBar progressBar;
+    private TextView forgot_pass;
     private TextView register;
+
+    ProgressBar progressBar;
     private DatabaseReference reference;
     private User user;
     private Recycle recycle;
-    private TextView forgot_pass;
     private Boolean isUpdating = false;
     //SharedPreferences pref;
     private FirebaseAuth mAuth;
@@ -62,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
 
         uEmail = findViewById(R.id.user_email);
         uPassword = findViewById(R.id.pass);
@@ -140,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                    // if (snapshot.child("email").getValue(String.class).equals(email)){
-                                        startActivity(new Intent(LoginActivity.this, BookingActivity.class));
+                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     //}
                                 }
                                 @Override

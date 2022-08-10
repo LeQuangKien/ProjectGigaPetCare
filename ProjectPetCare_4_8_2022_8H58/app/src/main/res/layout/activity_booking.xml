@@ -47,10 +47,10 @@
         <ExpandableListView
             android:id="@+id/expandLV"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:divider="#007FC3"
             android:dividerHeight="1dp"
-            android:scrollbars="none"
+            android:scrollbars="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
             tools:layout_editor_absoluteX="0dp" />
 
@@ -116,34 +116,36 @@
 
             <TextView
                 android:id="@+id/appointment"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:fontFamily="sans-serif-black"
                 android:text="Appointment"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.515"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
                 app:layout_constraintVertical_bias="0.067" />
 
             <TextView
+
                 android:id="@+id/endDateHotel"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
                 android:text="End Date Hotel"
                 android:textAlignment="center"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="visible"
+
+                app:layout_constraintBottom_toTopOf="@+id/notePet"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
-                app:layout_constraintVertical_bias="0.23"
-                android:visibility="gone"/>
+                app:layout_constraintTop_toBottomOf="@+id/appointment"
+                app:layout_constraintVertical_bias="1.0" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout4"

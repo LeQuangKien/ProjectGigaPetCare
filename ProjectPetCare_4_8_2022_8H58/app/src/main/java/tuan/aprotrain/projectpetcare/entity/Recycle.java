@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class Recycle {
     // upper letter for string
@@ -80,21 +81,20 @@ public class Recycle {
         }
     }
 
-    public String CalculateDate(String start){
-        int timeStart = Integer.parseInt(start);
+    public String CalculateDate(String start, long time){
         //int timeEnd = Integer.parseInt(end);
         String result = "";
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm a");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.getDefault());
         try {
-            Date date = Calendar.getInstance().getTime();
+            Date date = simpleDateFormat.parse(start);
             calendar.setTime(date);
-            calendar.add(Calendar.MINUTE, timeStart);
+            calendar.add(Calendar.MINUTE, (int) time);
             result = simpleDateFormat.format(calendar.getTime());
             //editTextEnd.setText(result);
             return result;
         }catch (Exception e){
-            System.out.println("error");
+            System.out.println("error"+ e);
         }
         return result;
 

@@ -13,8 +13,7 @@ public class Booking implements Serializable {
     private long petId;
     public static String TABLE_NAME = "Bookings";
 
-    public Booking() {
-    }
+
 
     public Booking(String bookingId, String bookingStartDate,
                    String bookingEndDate, String bookingAddress,
@@ -29,13 +28,23 @@ public class Booking implements Serializable {
         this.petId = petId;
     }
 
-    public Booking(long petId, String bookingStartDate, String bookingEndDate, String payment, String notes) {
+    public Booking(String bookingId,long petId, String bookingStartDate, String bookingEndDate, String payment, String notes,float totalPrice) {
+        this.bookingId = bookingId;
         this.petId = petId;
         this.bookingStartDate = bookingStartDate;
         this.bookingEndDate = bookingEndDate;
         this.payment = payment;
         this.notes = notes;
+        this.totalPrice = totalPrice;
     }
+
+    public Booking(long petId, String payment, String note) {
+        this.petId = petId;
+        this.payment = payment;
+        this.notes = note;
+    }
+
+
 
     public String getBookingId() {
         return bookingId;
