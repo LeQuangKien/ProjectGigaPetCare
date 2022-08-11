@@ -8,198 +8,123 @@
     android:id="@+id/drawerLayout"
     android:background="@drawable/wallpaper"
     tools:context=".activities.MainActivity">
+    <include layout="@layout/layout_navigation"/>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <LinearLayout
-            android:id="@+id/layoutToolbar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@color/purple_500"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:layout_height="match_parent"
+            android:paddingTop="60dp"
+            android:paddingBottom="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="10dp"
-                android:backgroundTint="@color/cardview_shadow_start_color"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_arrow_back_24"
-                app:tint="@color/white" />
-
-            <TextView
-                android:id="@+id/textTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="85dp"
-                android:text="@string/app_name"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/imageMenu"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginEnd="10dp"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_baseline_person_24"
-                app:tint="@color/white" />
-
-        </LinearLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="620dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutToolbar"
-            app:layout_constraintVertical_bias="0.499"
-            android:fillViewport = "true">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.14">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:cardCornerRadius="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_margin="5dp"
-                    app:layout_constraintVertical_bias="0.0"
-                    app:cardCornerRadius="20dp"
-                    >
+                    app:layout_constraintVertical_bias="0.0">
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardCornerRadius="20dp"
-                        >
+                        app:cardCornerRadius="20dp">
 
                         <com.denzcoskun.imageslider.ImageSlider
+                            android:id="@+id/imageSlider"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
-                            app:iss_period="1000"
                             app:iss_auto_cycle="true"
-                            app:iss_delay="1000"
                             app:iss_corner_radius="20"
-                            app:iss_title_background="@drawable/gradient"
-                            android:id="@+id/imageSlider"/>
+                            app:iss_delay="1000"
+                            app:iss_period="1000"
+                            app:iss_title_background="@drawable/gradient" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:layout_marginTop="24dp"
-                    android:src="@drawable/gigapet"
+                <ImageButton
+                    android:id="@+id/petHotel_Btn"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:src="@drawable/pet_hotel_img"
+                    app:layout_constraintBottom_toTopOf="@+id/petHealth_Btn"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView" />
+                    app:layout_constraintTop_toBottomOf="@+id/cardView"
+                    app:layout_constraintVertical_bias="0.0" />
 
-                <TextView
-                    android:id="@+id/textviewAboutUs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
-                    android:fontFamily="serif"
-                    android:text="About Us"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                <ImageButton
+                    android:id="@+id/petSpa_Btn"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:src="@drawable/pet_spa_img"
+                    app:cardCornerRadius="20dp"
+                    app:layout_constraintBottom_toTopOf="@+id/petBurry_Btn"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/logo" />
+                    app:layout_constraintTop_toBottomOf="@+id/cardView"
+                    app:layout_constraintVertical_bias="0.0" />
 
-                <TextView
-                    android:id="@+id/txtIntro"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
-                    android:fontFamily="serif"
-                    android:text="       We noticed that we haven't seen any page have the service for our pets. So, we decided to make one of our own. We know you care for your pets alot and we want all the best for them, but where can you find a place to trust and have all the health care, joy and empathy for you pets ? Well, we are so happy to tell you that those things can't bother you any more. Because at Giga Pet, we care for your pets"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="15dp"
-                    android:textStyle="bold"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
+                <ImageButton
+                    android:id="@+id/petHealth_Btn"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/pet_health_img"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textviewAboutUs" />
-                <TextView
-                    android:id="@+id/txtMid"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
-                    android:fontFamily="serif"
-                    android:text="       We have spa, hotel, health care, breeding, and so much more for you and your lovely pets to discover. We could understand how you feel, your pets are also a family member, so you love it, you care for it. We have Pet Health, where you could find the best way too make your pets be healthy again with our medical treatment and our Vet team. We have Pet Hotel, where you could send your pets for us to take care while you have to going some where far and you can't bring your little ones with you. We also have Pet Spa, you want your pet to be the cutest pet ever, we get it ! Hair trimming, bath, nail, etc. We have so much more in the future so say tune..."
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="15dp"
-                    android:textStyle="bold"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtIntro" />
+                    app:layout_constraintTop_toBottomOf="@+id/cardView"
+                    app:layout_constraintVertical_bias="0.824" />
 
-                <ImageView
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:src="@drawable/petwellcome"
+                <ImageButton
+                    android:id="@+id/petBurry_Btn"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginEnd="30dp"
+                    android:src="@drawable/pet_burry_img"
+                    app:circularflow_radiusInDP="10"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtMid" />
+                    app:layout_constraintTop_toBottomOf="@+id/cardView"
+                    app:layout_constraintVertical_bias="0.824" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_nav_menu" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigationView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        app:headerLayout="@layout/layout_navigation_header"
-        app:menu="@menu/navigation_menu">
-
-        <FrameLayout
-            android:id="@+id/frame_layout"
-            android:layout_width="0dp"
-            android:layout_height="0dp">
-
-        </FrameLayout>
-    </com.google.android.material.navigation.NavigationView>
-
 </androidx.drawerlayout.widget.DrawerLayout>

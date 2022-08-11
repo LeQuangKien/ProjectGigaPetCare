@@ -86,6 +86,7 @@ public class VerifyOTPActivity extends AppCompatActivity {
                             verificationId,
                             code
                     );
+
                     FirebaseAuth.getInstance().signInWithCredential(phoneAuthCredential)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override

@@ -1,33 +1,24 @@
-package tuan.aprotrain.projectpetcare.activities;
+package tuan.aprotrain.projectpetcare;
 
-import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,52 +30,23 @@ import java.util.Collections;
 import java.util.Date;
 
 import tuan.aprotrain.projectpetcare.Adapter.ReminderAdapter;
-import tuan.aprotrain.projectpetcare.AlarmReceiver;
-import tuan.aprotrain.projectpetcare.AlarmService;
-import tuan.aprotrain.projectpetcare.R;
 import tuan.aprotrain.projectpetcare.entity.Reminder;
 
-public class ReminderActivity extends AppCompatActivity {
-    private static final int NOTIFICATION_ID = 1;
-    Bundle extras;
-
-    Handler handler = new Handler();
-    Runnable runnable;
-    int delay = 1000;
-
-    RecyclerView id_reminder_recycleview;
-    ReminderAdapter reminderAdapter;
-    ImageButton btn_add_activity;
-    // Arraylist for storing data
-    private ArrayList<Reminder> reminders;
+public class AlarmService extends Service{
     private ArrayList<Calendar> calendars;
-//    private ArrayList<CalendarClass> calendarClassList;
+    private ArrayList<Reminder> reminders;
 
-    private AlarmManager alarmManager;
-    private PendingIntent pendingIntent;
+    ReminderAdapter reminderAdapter;
+
+    public AlarmService() {
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reminder);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            this.startForegroundService(new Intent(this, AlarmService.class));
-        } else {
-            this.startService(new Intent(this, AlarmService.class));
-        }
-        startService(new Intent(getApplicationContext(), AlarmService.class));
-        createNotificationChannel();
 
-        id_reminder_recycleview = findViewById(R.id.id_reminder_recycleview);
-        btn_add_activity = findViewById(R.id.btn_add_activity);
-        btn_add_activity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(ReminderActivity.this, AddReminderActivity.class);
-                ReminderActivity.this.startActivity(myIntent);
-            }
-        });
+    public int onStartCommand(Intent intent, int flags, int startId){
+        onTaskRemoved(intent);
 
+        //local display data
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("DATA", 0);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("reminder_data", null);
@@ -99,63 +61,20 @@ public class ReminderActivity extends AppCompatActivity {
 
         }
 
-        // below line is for setting a layout manager for our recycler view.
-        // here we are creating vertical list so we will provide orientation as vertical
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
-        // in below two lines we are setting layoutmanager and adapter to our recycler view.
-        id_reminder_recycleview.setLayoutManager(linearLayoutManager);
-        id_reminder_recycleview.setAdapter(reminderAdapter);
-
-        if (extras == null) {
-            extras = getIntent().getExtras();
-            setAlarm();
-        }
-
-        if (extras != null) {
-
-            String value = extras.getString("key");
-            if (value != null) {
-                setAlarm();
-            }
-            //The key argument here must match that used in the other activity
-        }
-
-
+        setAlarm();
+        return START_STICKY;
     }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Notification Check";
-            String description = "Notification";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel("notify", name, importance);
-            channel.setDescription(description);
-
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-
-        }
-
-
-    }
-
-
     @Override
-    protected void onResume() {
-        handler.postDelayed(runnable = new Runnable() {
-            public void run() {
-                handler.postDelayed(runnable, delay);
-                setAlarm();
-            }
-        }, delay);
-        super.onResume();
+    public IBinder onBind(Intent intent) {
+        // TODO: Return the communication channel to the service.
+        throw new UnsupportedOperationException("Not yet implemented");
     }
-
     @Override
-    protected void onPause() {
-        super.onPause();
-        handler.removeCallbacks(runnable); //stop handler when activity not visible super.onPause();
+    public void onTaskRemoved(Intent rootIntent) {
+        Intent restartServiceIntent = new Intent(getApplicationContext(),this.getClass());
+        restartServiceIntent.setPackage(getPackageName());
+        getApplicationContext().startService(restartServiceIntent);
+        super.onTaskRemoved(rootIntent);
     }
 
     private void setAlarm() {
@@ -288,7 +207,7 @@ public class ReminderActivity extends AppCompatActivity {
 //            if ((hourCalendar == hourCurrentTime)) {
 //                if (minuteCalendar == minuteCurrentTime) {
 //                    if (secondCalendar == secondCurrentTime) {
-//                        openRequestDialog(nameReminder, time, this);
+////                        openRequestDialog(nameReminder, time);
 //                        notification(nameReminder, time);
 //                        Log.d("TAG", "notification");
 //                    }
@@ -302,7 +221,6 @@ public class ReminderActivity extends AppCompatActivity {
                 }
             }
             if(isNotificationEnabled == true){
-                openRequestDialog(nameReminder, time, this);
                 notification(nameReminder, time);
                 try {
                     Thread.sleep(1000);
@@ -339,8 +257,8 @@ public class ReminderActivity extends AppCompatActivity {
         return (int) new Date().getTime();
     }
 
-    private void openRequestDialog(String nameReminder, String time, Activity activity) {
-        final Dialog dialog = new Dialog(activity);
+    private void openRequestDialog(String nameReminder, String time) {
+        final Dialog dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.layout_dialog_on_time);
@@ -357,22 +275,6 @@ public class ReminderActivity extends AppCompatActivity {
         WindowManager.LayoutParams windowAttributes = window.getAttributes();
         window.setAttributes(windowAttributes);
 
-
-//        String time,String nameReminder
-//        final Dialog dialog = new Dialog(this);
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.setContentView(R.layout.layout_dialog_on_time);
-//
-//        Window window = dialog.getWindow();
-//        if(window == null){
-//            return;
-//        }
-//        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-//        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//
-//        WindowManager.LayoutParams windowAttributes = window.getAttributes();
-//        window.setAttributes(windowAttributes);
-
         TextView tvTitle = dialog.findViewById(R.id.tv_title);
         TextView tvDescription = dialog.findViewById(R.id.tv_description);
         Button btnSend = dialog.findViewById(R.id.btn_send);
@@ -388,6 +290,4 @@ public class ReminderActivity extends AppCompatActivity {
         });
         dialog.show();
     }
-
 }
-

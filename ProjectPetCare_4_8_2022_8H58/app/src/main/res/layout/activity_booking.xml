@@ -140,7 +140,6 @@
                 android:textAlignment="center"
                 android:textSize="20sp"
                 android:visibility="visible"
-
                 app:layout_constraintBottom_toTopOf="@+id/notePet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

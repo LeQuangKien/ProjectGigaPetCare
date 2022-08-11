@@ -14,9 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import tuan.aprotrain.projectpetcare.R;
+import tuan.aprotrain.projectpetcare.entity.User;
 
 public class SendOTPActivity extends AppCompatActivity {
 
@@ -58,39 +61,51 @@ public class SendOTPActivity extends AppCompatActivity {
                 processBar.setVisibility(View.VISIBLE);
                 btnGetOtp.setVisibility(View.INVISIBLE);
 
-                PhoneAuthOptions options =
-                        PhoneAuthOptions.newBuilder(mAuth)
-                                .setPhoneNumber("+84" + inputPhone.getText().toString())       // Phone number to verify
-                                .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-                                .setActivity(SendOTPActivity.this)                 // Activity (for callback binding)
-                                .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                                    public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                                        processBar.setVisibility(View.GONE);
-                                        btnGetOtp.setVisibility(View.INVISIBLE);
-                                        Intent intent = new Intent(getApplicationContext(), VerifyOTPActivity.class);
-                                        intent.putExtra("mobile", inputPhone.getText().toString());
 
-                                        intent.putExtra("verificationId", verificationId);
+                /*UserRecord userRecord = null;
+                try {
+                    userRecord = FirebaseAuth.getInstance().getUserByPhoneNumber(inputPhone.getText().toString().trim());
+                } catch (FirebaseAuthException e) {
+                    e.printStackTrace();
+                }
+// See the UserRecord reference doc for the contents of userRecord.
+                System.out.println("Successfully fetched user data: " + userRecord.getPhoneNumber());
+                if(userRecord != null){*/
 
-                                        startActivity(intent);
-                                    }
+                    PhoneAuthOptions options =
+                            PhoneAuthOptions.newBuilder(mAuth)
+                                    .setPhoneNumber("+84" + inputPhone.getText().toString())       // Phone number to verify
+                                    .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                                    .setActivity(SendOTPActivity.this)                 // Activity (for callback binding)
+                                    .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                                        public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                            processBar.setVisibility(View.GONE);
+                                            btnGetOtp.setVisibility(View.INVISIBLE);
+                                            Intent intent = new Intent(getApplicationContext(), VerifyOTPActivity.class);
+                                            intent.putExtra("mobile", inputPhone.getText().toString());
 
-                                    @Override
-                                    public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                                        processBar.setVisibility(View.GONE);
-                                        btnGetOtp.setVisibility(View.INVISIBLE);
-                                    }
+                                            intent.putExtra("verificationId", verificationId);
 
-                                    @Override
-                                    public void onVerificationFailed(@NonNull FirebaseException e) {
-                                        processBar.setVisibility(View.GONE);
-                                        btnGetOtp.setVisibility(View.VISIBLE);
-                                        Toast.makeText(SendOTPActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                        System.out.println("Error: " + e.getMessage());
-                                    }
-                                })          // OnVerificationStateChangedCallbacks
-                                .build();
-                PhoneAuthProvider.verifyPhoneNumber(options);
+                                            startActivity(intent);
+                                        }
+
+                                        @Override
+                                        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                                            processBar.setVisibility(View.GONE);
+                                            btnGetOtp.setVisibility(View.INVISIBLE);
+                                        }
+
+                                        @Override
+                                        public void onVerificationFailed(@NonNull FirebaseException e) {
+                                            processBar.setVisibility(View.GONE);
+                                            btnGetOtp.setVisibility(View.VISIBLE);
+                                            Toast.makeText(SendOTPActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            System.out.println("Error: " + e.getMessage());
+                                        }
+                                    })          // OnVerificationStateChangedCallbacks
+                                    .build();
+                    PhoneAuthProvider.verifyPhoneNumber(options);
+//                }
 
             }
         });

@@ -1,6 +1,7 @@
 package tuan.aprotrain.projectpetcare.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Booking implements Serializable {
     private String bookingId;
@@ -11,13 +12,15 @@ public class Booking implements Serializable {
     private float totalPrice;//them total price
     private String payment;
     private long petId;
+    private ArrayList<Service> selectedService;
+
     public static String TABLE_NAME = "Bookings";
 
 
 
     public Booking(String bookingId, String bookingStartDate,
                    String bookingEndDate, String bookingAddress,
-                   String notes, float totalPrice, String payment, long petId) {
+                   String notes, float totalPrice, String payment, long petId,ArrayList<Service> selectedService) {
         this.bookingId = bookingId;
         this.bookingStartDate = bookingStartDate;
         this.bookingEndDate = bookingEndDate;
@@ -26,17 +29,19 @@ public class Booking implements Serializable {
         this.totalPrice = totalPrice;
         this.payment = payment;
         this.petId = petId;
+        this.selectedService = selectedService;
     }
 
-    public Booking(String bookingId,long petId, String bookingStartDate, String bookingEndDate, String payment, String notes,float totalPrice) {
-        this.bookingId = bookingId;
-        this.petId = petId;
-        this.bookingStartDate = bookingStartDate;
-        this.bookingEndDate = bookingEndDate;
-        this.payment = payment;
-        this.notes = notes;
-        this.totalPrice = totalPrice;
-    }
+//    public Booking(String bookingId,long petId, String bookingStartDate, String bookingEndDate, String payment, String notes,float totalPrice,ArrayList<Service> selectedService) {
+//        this.bookingId = bookingId;
+//        this.petId = petId;
+//        this.bookingStartDate = bookingStartDate;
+//        this.bookingEndDate = bookingEndDate;
+//        this.payment = payment;
+//        this.notes = notes;
+//        this.totalPrice = totalPrice;
+//        this.selectedService =selectedService;
+//    }
 
     public Booking(long petId, String payment, String note) {
         this.petId = petId;
@@ -117,4 +122,14 @@ public class Booking implements Serializable {
     public void setBookingEndDate(String bookingEndDate) {
         this.bookingEndDate = bookingEndDate;
     }
+
+    public ArrayList<Service> getSelectedService() {
+        return selectedService;
+    }
+
+    public void setSelectedService(ArrayList<Service> selectedService) {
+        this.selectedService = selectedService;
+    }
+
+
 }

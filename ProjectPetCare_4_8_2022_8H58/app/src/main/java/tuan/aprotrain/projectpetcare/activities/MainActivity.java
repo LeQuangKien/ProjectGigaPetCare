@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -20,12 +21,14 @@ import java.util.ArrayList;
 
 import tuan.aprotrain.projectpetcare.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SharedPreferences prf;
     Button btnLogout;
     FirebaseAuth mAuth;
     private ImageSlider imageSlider;
+    ImageButton petHotel_Btn,petSpa_Btn,petHealth_Btn,petBurry_Btn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,17 @@ public class MainActivity extends AppCompatActivity {
         });
         btnLogout = findViewById(R.id.btnLogout);
 
+        petHotel_Btn = findViewById(R.id.petHotel_Btn);
+        petSpa_Btn = findViewById(R.id.petSpa_Btn);
+        petHealth_Btn = findViewById(R.id.petHealth_Btn);
+        petBurry_Btn = findViewById(R.id.petBurry_Btn);
+
+
+        petHotel_Btn.setOnClickListener(this);
+        petSpa_Btn.setOnClickListener(this);
+        petHealth_Btn.setOnClickListener(this);
+        petBurry_Btn.setOnClickListener(this);
+
         mAuth = FirebaseAuth.getInstance();
 
         //code cua kien
@@ -52,6 +66,13 @@ public class MainActivity extends AppCompatActivity {
 
         imageSlider.setImageList(slideModels, ScaleTypes.FIT);
 
+//        findViewById(R.id.btnLogout).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mAuth.signOut();
+//            }
+//        });
+
     }
 
     @Override
@@ -62,6 +83,36 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this,LoginActivity.class ));
         } else {
 
+        }
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(MainActivity.this, BookingActivity.class);
+        switch (v.getId()){
+            case R.id.petHotel_Btn:
+                intent.putExtra("ID_BUTTON","hotel");
+                startActivity(intent);
+                break;
+            case R.id.petSpa_Btn:
+                intent.putExtra("ID_BUTTON","spa");
+                startActivity(intent);
+                break;
+            case R.id.petHealth_Btn:
+                intent.putExtra("ID_BUTTON","Hospital");
+                startActivity(intent);
+                break;
+            case R.id.petBurry_Btn:
+                intent.putExtra("ID_BUTTON","burry");
+                startActivity(intent);
+                break;
+            default:
+                break;
         }
     }
 }
